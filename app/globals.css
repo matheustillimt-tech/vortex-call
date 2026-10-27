@@ -1,0 +1,143 @@
+@import "tailwindcss";
+
+/*
+ * Tokens do painel. Tema claro (paleta zinc/slate do Tailwind). A cor de marca do painel é o verde #0A8452:
+ * pra trocar, mude o bloco "Marca" abaixo (a cor da sala e da página de agendamento vem de Configurações).
+ *
+ * Nomes (preferir): fundo, superficie, borda, linha, suave, texto*, titulo, rotulo, apagado, marca*, principal*,
+ * ok, aviso, erro. Os nomes antigos `vg-*` continuam existindo como apelidos dos novos.
+ */
+@theme {
+  --font-sans: var(--font-inter), Inter, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+
+  /* Breakpoints do painel (desktop-first, max-width). Use `max-pn-md:` para "até 900 px" etc. */
+  --breakpoint-pn-sm: 40rem; /* 640 → max-pn-sm: ≤ 639 */
+  --breakpoint-pn-md: 56.3125rem; /* 901 → max-pn-md: ≤ 900 (menu vira gaveta) */
+  --breakpoint-pn-slg: 68.8125rem; /* 1101 → max-pn-slg: ≤ 1100 */
+  --breakpoint-pn-lg: 85.6875rem; /* 1371 → max-pn-lg: ≤ 1370 */
+  --breakpoint-pn-xlg: 90.0625rem; /* 1441 → max-pn-xlg: ≤ 1440 */
+
+  /* Tipografia (os tamanhos padrão do Tailwind já batem: text-xs 12/16, text-sm 14/20, text-base 16/24, text-2xl 24/32) */
+  --text-pagina: 1.875rem; /* título da página: 30 / 36 / 700 */
+  --text-pagina--line-height: 2.25rem;
+  --text-pagina--font-weight: 700;
+  --text-valor: 1.5rem; /* valor grande dos cartões: 24 / 32 */
+  --text-valor--line-height: 2rem;
+  --text-nota: 0.625rem; /* nota de 10 px (versão do menu, "Conecte um checkout…") */
+  --text-nota--line-height: 0.875rem;
+
+  /* Superfícies */
+  --color-fundo: #f9fafb; /* área de conteúdo (main) */
+  --color-superficie: #ffffff; /* menu, cartões, modais, inputs */
+  --color-suave: #f4f4f5; /* item ativo do menu, hover, trilho */
+  --color-overlay: rgb(0 0 0 / 0.8);
+
+  /* Bordas */
+  --color-borda: #cbd5e1; /* cartão, input, botão secundário */
+  --color-linha: #e4e4e7; /* tabela, linhas, menu */
+
+  /* Texto */
+  --color-texto: #09090b;
+  --color-titulo: #020617;
+  --color-rotulo: #0f172a; /* label de campo */
+  --color-texto-2: #374151; /* título de cartão */
+  --color-texto-3: #6b7280; /* secundário */
+  --color-texto-4: #71717a; /* cabeçalho de tabela, notas */
+  --color-apagado: #9ca3af; /* ícone apagado */
+
+  /* Marca */
+  --color-marca: #0a8452;
+  --color-marca-forte: #13794f; /* ícones */
+  --color-marca-escura: #076b42; /* hover de link */
+  --color-marca-clara: #c6f1dc; /* fundo do quadradinho de ícone */
+  --color-marca-linha: #f0fbf5; /* hover de linha */
+  --color-marca-funil: #86d9b0; /* início do degradê do funil */
+
+  /* Verde escuro do botão principal ("Criar novo", "Continuar", passo atual) */
+  --color-principal: #14532d;
+  --color-principal-hover: #166534;
+  --color-passo: #d1d5db; /* círculo dos passos que não são o atual */
+
+  /* Estados */
+  --color-ok: #15803d;
+  --color-ok-fundo: #dcfce7;
+  --color-aviso: #b45309;
+  --color-aviso-fundo: #fef3c7;
+  --color-erro: #dc2626;
+  --color-erro-hover: #b91c1c;
+  --color-erro-fundo: #fee2e2;
+
+  /* Sombras */
+  --shadow-controle: 0 1px 2px rgb(0 0 0 / 0.05); /* input e botão secundário (shadow-sm) */
+  --shadow-cartao-sala: 0 4px 6px rgb(0 0 0 / 0.09);
+
+  /* ---- Apelidos antigos (do tema escuro anterior), agora claros ---- */
+  --color-vg-bg: var(--color-fundo);
+  --color-vg-side: var(--color-superficie);
+  --color-vg-panel: var(--color-suave);
+  --color-vg-panel-2: var(--color-suave);
+  --color-vg-panel-3: var(--color-linha);
+  --color-vg-pilula: var(--color-suave);
+  --color-vg-line: var(--color-linha);
+  --color-vg-line-2: var(--color-borda);
+  --color-vg-text: var(--color-texto);
+  --color-vg-text-2: var(--color-texto-2);
+  --color-vg-muted: var(--color-texto-3);
+  --color-vg-text-3: var(--color-texto-4);
+  --color-vg-rotulo: var(--color-texto-4);
+  --color-vg-accent: var(--color-marca);
+  --color-vg-accent-2: var(--color-marca);
+  --color-vg-accent-3: var(--color-marca-escura);
+  --color-vg-primario: var(--color-principal);
+  --color-vg-primario-hover: var(--color-principal-hover);
+  --color-vg-ok: var(--color-ok);
+  --color-vg-aviso: var(--color-aviso);
+  --color-vg-erro: var(--color-erro);
+  --color-vg-link: var(--color-marca);
+  --color-vg-destaque: var(--color-marca-linha);
+  --color-vg-destaque-2: var(--color-marca-linha);
+  --color-vg-destaque-borda: var(--color-marca-funil);
+}
+
+html { color-scheme: light; }
+html, body { background: var(--color-fundo); color: var(--color-texto); }
+input[type="checkbox"], input[type="radio"] { accent-color: var(--color-marca); }
+::selection { background: rgb(10 132 82 / 0.2); }
+
+/* Material Icons: só o editor de páginas (GrapesJS) ainda usa, nos blocos. O painel usa lucide-react. */
+.material-icons {
+  font-family: "Material Icons";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  overflow: hidden;
+  font-feature-settings: "liga";
+  -webkit-font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+@keyframes gw-entrar-toast {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+/* Tarja de aviso da sala: entra deslizando de cima (topo) ou de baixo (base). */
+@keyframes gw-tarja-topo {
+  from { opacity: 0; transform: translateY(-100%); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes gw-tarja-base {
+  from { opacity: 0; transform: translateY(100%); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes gw-aparecer {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}

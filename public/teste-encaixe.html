@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="pt-BR">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Teste do encaixe</title></head>
+<body style="font-family:system-ui;background:#f4f4f5;padding:24px">
+  <h1 style="text-align:center">Página de fora (simula um formulário ou landing)</h1>
+  <p id="evento" style="text-align:center;color:#0a8452"></p>
+  <script src="/agendar.js" data-agenda="vendas" data-nome="Lead de Teste" data-whatsapp="1139990000" data-email="teste@exemplo.com" data-resposta="teste-1"></script>
+  <script>
+    window.addEventListener("vortex-call:agendado", function (e) {
+      document.getElementById("evento").textContent = "Evento recebido: " + e.detail.resultado + (e.detail.codigo ? ", código " + e.detail.codigo : "");
+    });
+  </script>
+</body>
+</html>

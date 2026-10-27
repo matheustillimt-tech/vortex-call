@@ -1,0 +1,204 @@
+/*
+ * Ajustes finos nos componentes do RealtimeKit (web components com shadow DOM). Estilo de fora vence o `:host` do
+ * componente, e as partes internas só por `::part`. O resto do layout é Tailwind nos arquivos .tsx.
+ */
+
+/*
+ * Barra de baixo: botões redondos de 44 px só com ícone (o nome vem no tooltip), cinza
+ * claro no normal, vermelho cheio quando microfone/câmera estão desligados, cor da marca quando ativo (chat aberto,
+ * tela compartilhada, menu aberto). Microfone e câmera são pílulas com a setinha do menu de aparelhos à esquerda.
+ * Sair é uma pílula vermelha. `--vc-marca` vem do `style` da raiz da sala (cor do painel).
+ */
+.vc-barra {
+  --vc-botao: 44px;
+  --vc-cinza: #f1f3f4;
+  --vc-cinza-hover: #e3e5e8;
+  --vc-vermelho: #dc2626;
+  --vc-vermelho-hover: #b91c1c;
+}
+.vc-botao {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: var(--vc-botao);
+  height: var(--vc-botao);
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background: var(--vc-cinza);
+  color: #27272a;
+  transition: background-color 120ms, color 120ms;
+}
+.vc-botao:hover:not(:disabled) {
+  background: var(--vc-cinza-hover);
+}
+.vc-botao:focus-visible,
+.vc-seta:focus-visible {
+  outline: 2px solid var(--vc-marca, #0a8452);
+  outline-offset: 2px;
+}
+.vc-botao:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+.vc-botao[aria-busy="true"] {
+  cursor: progress;
+  opacity: 1;
+}
+.vc-botao[data-estado="desligado"] {
+  background: var(--vc-vermelho);
+  color: #fff;
+}
+.vc-botao[data-estado="desligado"]:hover:not(:disabled) {
+  background: var(--vc-vermelho-hover);
+}
+.vc-botao[data-estado="ativo"] {
+  background: color-mix(in srgb, var(--vc-marca, #0a8452) 16%, white);
+  color: var(--vc-marca, #0a8452);
+}
+.vc-botao[data-estado="ativo"]:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--vc-marca, #0a8452) 24%, white);
+}
+.vc-botao.vc-botao-gravando {
+  background: #fee2e2;
+  color: var(--vc-vermelho);
+}
+.vc-botao.vc-botao-sair {
+  width: calc(var(--vc-botao) + 16px);
+  background: var(--vc-vermelho);
+  color: #fff;
+}
+.vc-botao.vc-botao-sair:hover {
+  background: var(--vc-vermelho-hover);
+}
+.vc-icone {
+  width: 20px;
+  height: 20px;
+}
+
+/* Pílula do microfone/câmera: setinha à esquerda + botão redondo. */
+.vc-dividido {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: 9999px;
+  background: var(--vc-cinza);
+}
+.vc-seta {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: var(--vc-botao);
+  padding-left: 4px;
+  border-radius: 9999px 0 0 9999px;
+  color: #3f3f46;
+}
+.vc-seta:hover,
+.vc-seta[aria-expanded="true"] {
+  background: var(--vc-cinza-hover);
+}
+
+/* Bolinha de não lidas do chat. */
+.vc-contador {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  display: grid;
+  place-items: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 9999px;
+  background: var(--vc-marca, #0a8452);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* Tooltip com o nome da ação (só onde existe mouse; no celular o toque não deixa a dica presa). */
+@media (hover: hover) {
+  .vc-barra [data-dica]:hover::after,
+  .vc-barra [data-dica]:focus-visible::after {
+    content: attr(data-dica);
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    z-index: 60;
+    transform: translateX(-50%);
+    padding: 6px 10px;
+    border-radius: 6px;
+    background: #3c4043;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+}
+
+/* Menus que abrem para cima (aparelhos, fundo, mais opções). CSS fora de camada vence os utilitários do Tailwind:
+ * aqui só o que nenhum .tsx sobrescreve (posição horizontal e largura ficam nas classes do componente). */
+.vc-menu {
+  position: absolute;
+  bottom: calc(100% + 12px);
+  z-index: 50;
+  max-width: calc(100vw - 2rem);
+  max-height: min(420px, 70dvh);
+  overflow-y: auto;
+  padding: 6px 0;
+  border: 1px solid #e4e4e7;
+  border-radius: 12px;
+  background: #fff;
+  color: #27272a;
+  font-size: 14px;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.14);
+}
+.vc-menu.vc-menu-caixa {
+  padding: 12px;
+}
+.vc-item {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 16px;
+  text-align: left;
+}
+.vc-item:hover:not(:disabled),
+.vc-item:focus-visible {
+  background: #f4f4f5;
+  outline: none;
+}
+.vc-item:disabled {
+  opacity: 0.6;
+}
+
+/* Quadros e tela compartilhada com cantos arredondados, como na referência. */
+.vc-palco rtk-participant-tile,
+.vc-palco rtk-screenshare-view {
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+/* Avisos ("Fulano entrou") no canto de baixo à esquerda do palco. */
+.vc-avisos {
+  align-items: flex-start;
+  right: auto;
+}
+
+/* Chat: o kit ocupa a altura toda do painel. */
+.vc-chat rtk-chat {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 639px) {
+  .vc-barra {
+    --vc-botao: 40px;
+  }
+  .vc-seta {
+    width: 24px;
+  }
+}

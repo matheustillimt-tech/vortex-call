@@ -1,0 +1,21 @@
+# Segredos: nunca versionar (só o modelo .env.example)
+.env*
+!.env.example
+
+# Dependências e build
+node_modules/
+.next/
+out/
+dist/
+*.tsbuildinfo
+next-env.d.ts
+
+# Vercel e Supabase (gerados na sua máquina)
+.vercel/
+supabase/.temp/
+supabase/.branches/
+
+# Sistema e editor
+.DS_Store
+*.log
+coverage/
